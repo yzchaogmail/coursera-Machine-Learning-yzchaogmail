@@ -114,6 +114,7 @@ disp(Jtmp);
 disp(m);
 disp(J);
 %}
+
 % -------------------------------------------------------------
 % STEP3: Calc Cost without Regularization
 Ytmp = -YV.* log(A3) - (1-YV).* log(1-A3);
