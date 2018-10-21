@@ -62,6 +62,8 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% -------------------------------------------------------------
+%% STEP1 Unrolled y
 for i=1:num_labels
   Yi = (y==i);
 
@@ -82,6 +84,8 @@ disp(YV(sel, :));
 disp(size(YV));
 %}
 
+% -------------------------------------------------------------
+%% SETP2: Calc Z2/A2,Z3/A3(H(x))
 A1 = [ones(m,1) X];   %A1(m,n+1),Theta1(hidden_layer_size,n+1)
 
 Z2 = A1 * Theta1';    %Z2(m,hidden_layer_size);
@@ -111,11 +115,25 @@ disp(m);
 disp(J);
 %}
 % -------------------------------------------------------------
-
+% STEP3: Calc Cost without Regularization
 Ytmp = -YV.* log(A3) - (1-YV).* log(1-A3);
 J = sum(sum(Ytmp))/m;
 
+% -------------------------------------------------------------
+% STEP4: Calc Cost add  Regularization
+
+Theta1 = Theta1(:,2:end);
+Theta2 = Theta2(:,2:end);
+
+Theta1Tmp = Theta1 .^2;
+Theta2Tmp = Theta2 .^2;
+CostReg = lambda/(2*m) * (sum(sum(Theta1Tmp)) + sum(sum(Theta2Tmp)));
+J += CostReg;
+
 % =========================================================================
+
+% -------------------------------------------------------------
+
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
