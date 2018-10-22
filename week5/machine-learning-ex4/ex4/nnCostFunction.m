@@ -142,25 +142,23 @@ DELTA3 = A3 - YV;
 % STEP3 Calc DELTA2
 DELTA2 = DELTA3 * Theta2 .* sigmoidGradient(Z2);
 % STEP4 Calc Delta_grad
-% DELTA2 = DELTA2(:,2:end);
-% A1_0 = A1(:,2:end);
-% A2_0 = A2(:,2:end);
-
-%{
-disp(size(DELTA2));
-disp(size(A1_0));
-disp(size(DELTA3));
-disp(size(A2_0));
-%}
-
 Theta1_grad = Theta1_grad + (A1' * DELTA2)';
 Theta2_grad = Theta2_grad + (A2' * DELTA3)';
 
-%disp(size(Theta1_grad));
-%disp(size(Theta2_grad));
-
+% STEP5 Dividing the accumulated gradients by 1/m
 Theta1_grad = Theta1_grad/m;
 Theta2_grad = Theta2_grad/m;
+
+% STEP6 % STEP5 Dividing the accumulated gradients by 1/m
+C1_Theta1_grad = Theta1_grad(:,1);
+Cx_Theta1_grad = Theta1_grad(:,2:end);
+Cx_Theta1_grad += lambda/m .* Theta1;
+Theta1_grad = [C1_Theta1_grad Cx_Theta1_grad];
+
+C1_Theta2_grad = Theta2_grad(:,1);
+Cx_Theta2_grad = Theta2_grad(:,2:end);
+Cx_Theta2_grad += lambda/m .* Theta2;
+Theta2_grad = [C1_Theta2_grad Cx_Theta2_grad];
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
