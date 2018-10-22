@@ -134,10 +134,35 @@ J += CostReg;
 % =========================================================================
 
 % -------------------------------------------------------------
+% STEP1 Calc Activations [DONE]
 
+% STEP2 Calc DELTA3
+DELTA3 = A3 - YV;
+
+% STEP3 Calc DELTA2
+DELTA2 = DELTA3 * Theta2 .* sigmoidGradient(Z2);
+% STEP4 Calc Delta_grad
+% DELTA2 = DELTA2(:,2:end);
+% A1_0 = A1(:,2:end);
+% A2_0 = A2(:,2:end);
+
+%{
+disp(size(DELTA2));
+disp(size(A1_0));
+disp(size(DELTA3));
+disp(size(A2_0));
+%}
+
+Theta1_grad = Theta1_grad + (A1' * DELTA2)';
+Theta2_grad = Theta2_grad + (A2' * DELTA3)';
+
+%disp(size(Theta1_grad));
+%disp(size(Theta2_grad));
+
+Theta1_grad = Theta1_grad/m;
+Theta2_grad = Theta2_grad/m;
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
 
 end
