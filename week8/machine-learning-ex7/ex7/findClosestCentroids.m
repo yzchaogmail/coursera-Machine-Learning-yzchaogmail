@@ -25,8 +25,8 @@ for i=1:size(X,1)
   minXi = 500000000;    %INIT a value seem to be large enough
   idXi = 1;
   for j=1:K
-    plusSqure = (X(i,:) - centroids(j,:)) .^ 2;
-    tmpValue = sum(plusSqure);
+    minusSqure = (X(i,:) - centroids(j,:)) .^ 2;
+    tmpValue = sum(minusSqure);
     if (tmpValue < minXi)
       minXi = tmpValue;
       idXi = j;
