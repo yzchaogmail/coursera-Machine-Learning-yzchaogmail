@@ -21,8 +21,13 @@ sigma2 = zeros(n, 1);
 %               should contain variance of the i-th feature.
 %
 
-mu = 1/m * sum(X);
-sigma2 = 1/m * sum((X-mu).^2);
+% WAY1:calc myself
+% mu = 1/m * sum(X);
+% sigma2 = 1/m * sum((X-mu).^2);
+
+% WAY2:calc by LIB functions
+mu = mean(X);
+sigma2 = var(X,1);
 
 % =============================================================
 
